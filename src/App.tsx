@@ -5,7 +5,11 @@ import { Quizcard } from './Components/Quizcard';
 
 function App() {
   return (
-    <Quizcard />
+    <div style={{ display: 'grid', height: '100vh', placeItems: 'center' }} >
+      
+        <Quizcard />
+      
+    </div>
   );
 }
 
