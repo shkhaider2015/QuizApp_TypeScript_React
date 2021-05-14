@@ -2,6 +2,7 @@ import { Button, Paper } from '@material-ui/core'
 import React from 'react'
 import { Option } from './Option'
 import DATA from "../Data/data.json";
+import { CounterContext } from '../Context/ContextAPI'
 
 interface myProps  {
     answers : Array<string>
@@ -9,10 +10,21 @@ interface myProps  {
 
 export const Quizcard = () => {
 
+    const {increment, counter} = React.useContext(CounterContext);
     const [currentQuestion, setCurrentQuestion] = React.useState(0);
-    const [answers, setAnswers] = React.useState<Array<string>>([]);
-
+    const [answers, setAnswers] = React.useState<Array<string>>(['', '', '', '', '', '', '']);
+    const [selected, setSelected] = React.useState(true);
+    // console.log("mCTX : ", mCTX);
     const handleCurrentQuestion = (x:number) => {
+
+        if(answers[currentQuestion] === "")
+        {
+            setSelected(false);
+            return;
+        }
+
+        setSelected(true)
+
         let nextQuestion : number ;
         if(x === 1)
         {
@@ -23,16 +35,35 @@ export const Quizcard = () => {
             nextQuestion = currentQuestion - 1;
         }
         setCurrentQuestion(nextQuestion);
+
+        if(answers[currentQuestion] === DATA[currentQuestion].answer)
+        {
+            increment();
+        }
     }
-    const handleAnswer = (x:string) => {
-        // setAnswers(x)
+    const handleAnswer = (y:string) => {
+        let localanswers: Array<string> = answers;
+        localanswers[currentQuestion] = y;
+        console.log("LocalAnswer : ", localanswers)
+        
+        setAnswers(localanswers)
     }
 
     if(currentQuestion > (DATA.length - 1) )
     {
         return <Paper style={{ width: '40%', height : '40%' }} >
             <div style={{ display : 'grid', placeItems : 'center' }} >
-                <h3> Done </h3>
+                
+                <div style={{ display: 'flex', flexDirection : 'column', alignItems: 'center' }} >
+                    <h3>Your Result</h3>
+                    <h3> {counter}/7 </h3>
+                    {
+                        counter > 3
+                        ? <h3>Looks Good :)</h3>
+                        : <h3>Try Again :(</h3>
+                    }
+
+                </div>
             </div>
         </Paper>
     }
@@ -40,6 +71,14 @@ export const Quizcard = () => {
     {
 
         return (<Paper style={{ width: '40%', padding: 20 }} >
+        <div style={{ display: 'grid', placeItems: 'center' }} >
+            {
+                selected
+                ? ""
+                : <span>Please select an answer</span>
+            }
+        </div>
+        
         <div style={{ display: 'grid', placeItems: 'center' }} >
             <h3> {DATA[currentQuestion].question} </h3>
         </div>
@@ -49,6 +88,9 @@ export const Quizcard = () => {
          opt2={DATA[currentQuestion].option2} 
          opt3={DATA[currentQuestion].option3} 
          opt4={DATA[currentQuestion].option4}
+         DATA={DATA}
+         currentQuestion={currentQuestion}
+         answers={answers}
          handleAnswer={handleAnswer}
          />
 
