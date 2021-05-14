@@ -36,9 +36,9 @@ jobs:
           cmd: install
          
       - name: creating build
-        run: yarn build
+        cmd: yarn build
         
       - name: installing Surge
-        run: npm install --global surge
+        cmd: npm install --global surge
       - name: deploy on surge
-        run: surge ./build shkhaider2015_quiz_app.surge.sh/ --token ${{secrets.SURGE_TOKEN}}
+        cmd: surge ./build shkhaider2015_quiz_app.surge.sh/ --token ${{secrets.SURGE_TOKEN}}
