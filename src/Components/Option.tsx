@@ -1,4 +1,4 @@
-import { Paper, FormControl, FormLabel, RadioGroup, Radio, FormControlLabel, Button } from '@material-ui/core'
+import { FormControl, RadioGroup, Radio, FormControlLabel } from '@material-ui/core'
 import React from 'react'
 type DataType = {
     opt1 : string,
@@ -13,30 +13,14 @@ type DataType = {
 
 export const Option = ( {opt1,opt2,opt3,opt4, DATA,answers,currentQuestion, handleAnswer}:DataType ) => {
 
-    const [value, setValue] = React.useState("");
-    // const [selected, setSelected] = React.useState('')
-
-    // React.useEffect(
-    //     () => {
-    //         // if(!value)
-    //         // {
-    //             console.log(";;;;;; : ", answers[currentQuestion])
-    //             setValue(answers[currentQuestion])
-    //         // }
-    //     },
-    //     []
-    // )
 
     const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-        setValue((event.target as HTMLInputElement).value);
         handleAnswer((event.target as HTMLInputElement).value)
 
-        console.log("Answer Options : ", (event.target as HTMLInputElement).value)
     };
 
 
     return <FormControl component="fieldset">
-                {/* <FormLabel component="legend">Gender</FormLabel> */}
                 <RadioGroup aria-label="gender" name="gender1" value={answers[currentQuestion]} onChange={handleChange}>
                     <FormControlLabel value={DATA[currentQuestion].option1} control={<Radio color="primary" />} label={opt1} />
                     <FormControlLabel value={DATA[currentQuestion].option2} control={<Radio color="primary" />} label={opt2} />
