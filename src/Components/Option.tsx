@@ -13,8 +13,11 @@ type DataType = {
 
 export const Option = ( {opt1,opt2,opt3,opt4, DATA,answers,currentQuestion, handleAnswer}:DataType ) => {
 
+    const JJ = React.useState("");
+    
 
     const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+        JJ[1]((event.target as HTMLInputElement).value);
         handleAnswer((event.target as HTMLInputElement).value)
 
     };
